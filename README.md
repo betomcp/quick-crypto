@@ -50,8 +50,15 @@ cipherObject<T extends Record<string, any>>(obj: T, propertiesToEncrypt?: (keyof
 ```
 
 #### Examples
+_Lets create an Address object this method works_
 ```
 import { cipherObject } from 'fast-crypto'
+type Address = {
+    street: string,
+    number: number,
+    state: string,
+    city: string
+}
 
 const address: Address = {
     street: 'some street',
@@ -96,6 +103,13 @@ console.log(cryptoAddress3)
 #### Example (using custom key and iv)
 ```
 import { cipherObject, generateKeyAndIv } from 'fast-crypto'
+
+type Address = {
+    street: string,
+    number: number,
+    state: string,
+    city: string
+}
 
 const address: Address = {
     street: 'some street',
