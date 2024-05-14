@@ -92,3 +92,51 @@ console.log(cryptoAddress3)
 //   city: 'lenkwndekuw8'
 // }
 ```
+
+#### Example (using custom key and iv)
+```
+import { cipherObject, generateKeyAndIv } from 'fast-crypto'
+
+const address: Address = {
+    street: 'some street',
+    number: 123,
+    state: 'NY',
+    city: 'New York'
+}
+
+// It will encrypt all properties passed in the array at the
+// second parameter using the generated key and iv
+const { key, iv } = generateKeyAndIv();
+const cryptoAddress = cipherObject<Address>(address, ['street', 'city'], key, iv)
+console.log(cryptoAddress)
+// { 
+//   street: 'erblfebrfluierlwuhlrl738743bdwd',
+//   number: 123,
+//   state: 'NY',
+//   city: 'lenkwndekuw8'
+// }
+
+// It will encrypt all string properties using the 
+// generated key and iv
+const { key, iv } = generateKeyAndIv();
+const cryptoAddress2 = cipherObject<Address>(address, undefined, key, iv)
+console.log(cryptoAddress2)
+// { 
+//   street: 'erblfebrfluierlwuhlrl738743bdwd',
+//   number: 123,
+//   state: 'dkhbcdkd',
+//   city: 'lenkwndekuw8'
+// }
+
+// It will encrypt all string properties using the 
+// generated key and the default iv
+const { key } = generateKeyAndIv();
+const cryptoAddress3 = cipherObject<Address>(address, undefined, key)
+console.log(cryptoAddress3)
+// { 
+//   street: 'erblfebrfluierlwuhlrl738743bdwd',
+//   number: 123,
+//   state: 'dkhbcdkd',
+//   city: 'lenkwndekuw8'
+// }
+```
