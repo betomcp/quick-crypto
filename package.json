@@ -5,6 +5,9 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "repository": {
+    "url": "https://github.com/betomcp/fast-crypto"
+  },
   "scripts": {
     "test": "jest",
     "build": "tsup",

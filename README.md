@@ -1,16 +1,22 @@
 # Easy Crypto
-### An easy way to cipher and decipher messages with TypeScript.
+### An easy way to cipher and decipher objects and simple strings with TypeScript.
 With this library, you can easily encrypt both complex objects and simple values.
 
 ## Instalation
-``npm install nome-da-lib``
+```
+npm install fast-crypto
+```
 
 
 ## Build
-`npm run build`
+```
+npm run build
+```
 
 ## Test
-`npm run test`
+```
+npm run test
+```
 
 ### Methods list:
 #### Each method will be explained below.
