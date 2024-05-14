@@ -24,15 +24,26 @@ With this library, you can easily encrypt both complex objects and simple values
 - cipherValues(value[], keyCipher?, iv?): value[]
 - decipherValues(value[], keyCipher?, iv?): value[]
 - generateKeyAndIv(): { key: string, iv?: string }
-- getDefauktKeyAndIv(): { key: string, iv?: string }
+- getDefaultKeyAndIv(): { key: string, iv?: string }
 ```
+
+- _All cipher and decipher methods have the option to recive a custom key and iv. If they are not given in the params, the values will be cryptographed with the default key of this library._
+
+- _To generate your own key and iv, you can use the method ``generateKeyAndIv()``, and if you need to know the default key and iv, it is possible to use the method ``getDefaultKeyAndIv()``_
+
+- _The best aproach to use this in production would be to generate custom keys and ivs with ``generateKeyAndIv()``_
 
 # cipherObject
 
 This method is used to easly crptograph any object properties.
 Below there is an example of how this method works.
 
+ #### Signature
+```
+cipherObject<T extends Record<string, any>>(obj: T, propertiesToEncrypt?: (keyof T)[], keyCipher?: string, iv?: string): T;
+```
 
+#### Examples
 ```
 import { cipherObject } from 'fast-crypto'
 
