@@ -1,0 +1,16 @@
+# Node build artifacts
+/dist
+
+# Dependency directories
+/node_modules
+
+# Environment variables file
+.env
+
+# IDE files
+.idea/
+.vscode/
+
+# System Files
+.DS_Store
+Thumbs.db

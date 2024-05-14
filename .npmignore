@@ -1,0 +1,13 @@
+/src
+/node_modules
+/tsconfig.json
+/tsup.config.json
+/tests
+
+.env
+
+.idea/
+.vscode/
+
+.DS_Store
+Thumbs.db
