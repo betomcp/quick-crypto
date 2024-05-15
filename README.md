@@ -41,6 +41,8 @@ _These are the ten methods you can  use from this library:_
 - _It is possible to create your own key and iv, save them in a database, and use them to encrypt your data._
 
 - _In the examples below, the encrypted values are just representative and are not the same as the real ones._
+
+# Usage
 #### Each method will be explained below.
 
 # cipherObject
