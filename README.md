@@ -3,18 +3,18 @@
 With this library, you can easily encrypt both complex objects and simple values.
 
 ## Installation
-```
+``` bash
 npm install fast-crypto
 ```
 
 
 ## Build
-```
+``` bash
 npm run build
 ```
 
 ## Test
-```
+``` bash
 npm run test
 ```
 
@@ -51,13 +51,13 @@ _These are the ten methods you can  use from this library:_
 - Below is an example of how this method works.
 
  #### Signature
-```
+``` typescript
 cipherObject<T extends Record<string, any>>(obj: T, propertiesToEncrypt?: (keyof T)[], keyCipher?: string, iv?: string): T;
 ```
 
 #### Examples
 _Let's create an Address object to show how this method works._
-```
+``` typescript
 import { cipherObject } from 'fast-crypto';
 
 type Address = {
@@ -96,7 +96,7 @@ console.log(cryptoAddress2);
 ```
 
 #### Example (using custom key and iv)
-```
+``` typescript
 import { cipherObject, generateKeyAndIv } from 'fast-crypto';
 
 type Address = {
@@ -155,33 +155,32 @@ console.log(cryptoAddress3);
 - Similar to the `cipherObject` method, you can pass an array of strings with the names of the object properties to be decrypted.
 
 #### Signature
-```typescrypt
+``` typescript
 decipherObject<T extends Record<string, any>>(obj: T, propertiesToEncrypt?: (keyof T)[], keyCipher?: string, iv?: string): T;
 ```
 
 #### Examples
 _To show how this method works, we will create a encrypted address object._
-```
-import { decipherObject } from 'fast-crypto'
+``` typescript
+import { decipherObject } from 'fast-crypto';
 
 type Address = {
     street: string,
     number: number,
     state: string,
     city: string
-}
+};
 
 const encryptedAddress: Address = {
     street: 'skjdckkdkwnjkqlklqwxwxw',
     number: 123,
     state: 'qlqnknslqskqnl',
     city: 'endkwdxkwnjknwnjxwk'
-}
+};
 
-// It will decrypt all string properties of the object.
-// It will use the default key and iv.
-const decryptedAddress = decipherObject<Address>(encryptedAddress)
-console.log(decryptedAddress)
+// It will decrypt all string properties of the object using the default key and iv.
+const decryptedAddress = decipherObject<Address>(encryptedAddress);
+console.log(decryptedAddress);
 // { 
 //   street: 'some street',
 //   number: 123,
@@ -189,42 +188,87 @@ console.log(decryptedAddress)
 //   city: 'New York'
 // }
 
-// It will decrypt all properties recived in the array at the second parametert.
-// It will use the default key and iv.
-const decryptedAddress2 = decipherObject<Address>(encryptedAddress, ['street', 'city'])
-console.log(decryptedAddress2)
+// It will decrypt only the properties received in the array in the second parameter using the default key and iv.
+const decryptedAddress2 = decipherObject<Address>(encryptedAddress, ['street', 'city']);
+console.log(decryptedAddress2);
 // { 
 //   street: 'some street',
 //   number: 123,
-//   state: 'kjnknwswkjkwjn',
+//   state: 'qlqnknslqskqnl',
 //   city: 'New York'
 // }
 ```
-- _To use a custom key and iv to decipher objects, it must be the same key and iv used to encrypt the object_
+#### Example (using custom key and iv)
+``` typescript
+import { decipherObject, generateKeyAndIv } from 'fast-crypto';
 
-
-# cipherObjects
-- This method is very similar with the _`cipherObject()`_ method, the diference is that this one recives an array of objects to encrypt instead of one single object.
-- This method is used to easly cryptograph any array of objects.
-- It is possible to pass an array of strings with the name of each property of the object that you want to encrypt.
-- If no key and/or iv is given, it will use the default key and/or iv.
-- It will retur an array of objects from the same type as the objects in the array given.
-- Below there is an example of how this method works.
-
- #### Signature
-```
-cipherObjects<T extends Record<string, any>>(obj: T[], propertiesToEncrypt?: (keyof T)[], keyCipher?: string, iv?: string): T[];
-```
-
-#### Examples
-_Lets create an Address object and an array of addresses to show how this method works_
-```
-import { cipherObjects } from 'fast-crypto'
 type Address = {
     street: string,
     number: number,
     state: string,
     city: string
+};
+
+const encryptedAddress: Address = {
+    street: 'skjdckkdkwnjkqlklqwxwxw',
+    number: 123,
+    state: 'qlqnknslqskqnl',
+    city: 'endkwdxkwnjknwnjxwk'
+};
+
+const { key, iv } = generateKeyAndIv();
+
+// It will decrypt the properties using the same key and iv that were used to encrypt them.
+const decryptedAddress = decipherObject<Address>(encryptedAddress, ['street', 'city'], key, iv);
+console.log(decryptedAddress);
+// { 
+//   street: 'some street',
+//   number: 123,
+//   state: 'qlqnknslqskqnl',
+//   city: 'New York'
+// }
+
+// It will decrypt all string properties using the same key and iv that were used to encrypt them.
+const decryptedAddress2 = decipherObject<Address>(encryptedAddress, undefined, key, iv);
+console.log(decryptedAddress2);
+// { 
+//   street: 'some street',
+//   number: 123,
+//   state: 'NY',
+//   city: 'New York'
+// }
+```
+
+### Additional Notes
+- To use a custom key and iv to decrypt objects, it must be the same key and iv used to encrypt the object.
+- If no key and/or iv is given, the method will use the default key and iv to decrypt the object.
+- Ensure that the keys and ivs used for encryption and decryption match to avoid errors.
+- In the examples above, the encrypted values are just representative and are not the same as the real ones.
+
+# cipherObjects
+
+- This method is similar to the `cipherObject` method, but it accepts an array of objects to encrypt instead of a single object.
+- It is used to easily encrypt any array of objects.
+- You can pass an array of strings with the names of the properties you want to encrypt.
+- If no key and/or IV is provided, the default key and/or IV will be used.
+- It returns an array of objects of the same type as the input array.
+- Below is an example demonstrating how this method works.
+
+#### Signature
+```typescript
+cipherObjects<T extends Record<string, any>>(obj: T[], propertiesToEncrypt?: (keyof T)[], keyCipher?: string, iv?: string): T[];
+```
+
+#### Examples
+_Let's create an Address object and an array of addresses to show how this method works:_
+``` typescript
+import { cipherObjects } from 'fast-crypto';
+
+type Address = {
+  street: string,
+  number: number,
+  state: string,
+  city: string
 }
 
 const addresses: Address[] = [
@@ -240,58 +284,54 @@ const addresses: Address[] = [
     state: 'CA',
     city: 'San Francisco'
   }
-]
+];
 
-// It will encrypt all string ptoperties of all objects in the 
-// array and use the default key and iv
-const cryptoAddresses = cipherObjects<Address>(addresses);
-console.log(cryptoAddresses)
+// Encrypts all string properties of all objects in the array using the default key and IV
+const encryptedAddresses = cipherObjects<Address>(addresses);
+console.log(encryptedAddresses);
 // [
 //   { 
-//      street: 'erblfebrfluierlwuhlrl738743bdwd',
-//      number: 123,
-//      state: 'jqwnkbdkwekwyeg7',
-//      city: 'lenkwndekuw8'
+//     street: 'erblfebrfluierlwuhlrl738743bdwd',
+//     number: 123,
+//     state: 'jqwnkbdkwekwyeg7',
+//     city: 'lenkwndekuw8'
 //   },
 //   { 
-//      street: 'erblfebrfluierlwuhlrl738743bdwd',
-//      number: 987,
-//      state: 'jqwnkbdkwekwyeg7',
-//      city: 'lenkwndekuw8'
+//     street: 'erblfebrfluierlwuhlrl738743bdwd',
+//     number: 987,
+//     state: 'jqwnkbdkwekwyeg7',
+//     city: 'lenkwndekuw8'
 //   }
 // ] 
 
-
-// It will encrypt all properties passed in the array at the
-// second parameter of all objects in the addresses array and use 
-// the default key and iv
-const cryptoAddresses2 = cipherObjects<Address>(addresses, ['street', 'city'])
-console.log(cryptoAddresses2)
+// Encrypts only the 'street' and 'city' properties of all objects in the array using the default key and IV
+const encryptedAddresses2 = cipherObjects<Address>(addresses, ['street', 'city']);
+console.log(encryptedAddresses2);
 // [
 //   { 
-//      street: 'erblfebrfluierlwuhlrl738743bdwd',
-//      number: 123,
-//      state: 'NY',
-//      city: 'lenkwndekuw8'
+//     street: 'erblfebrfluierlwuhlrl738743bdwd',
+//     number: 123,
+//     state: 'NY',
+//     city: 'lenkwndekuw8'
 //   },
 //   { 
-//      street: 'erblfebrfluierlwuhlrl738743bdwd',
-//      number: 987,
-//      state: 'CA',
-//      city: 'lenkwndekuw8'
+//     street: 'erblfebrfluierlwuhlrl738743bdwd',
+//     number: 987,
+//     state: 'CA',
+//     city: 'lenkwndekuw8'
 //   }
 // ] 
 ```
 
 #### Example (using custom key and iv)
-```
-import { cipherObjects, generateKeyAndIv } from 'fast-crypto'
+``` typescript
+import { cipherObjects, generateKeyAndIv } from 'fast-crypto';
 
 type Address = {
-    street: string,
-    number: number,
-    state: string,
-    city: string
+  street: string,
+  number: number,
+  state: string,
+  city: string
 }
 
 const addresses: Address[] = [
@@ -307,67 +347,63 @@ const addresses: Address[] = [
     state: 'CA',
     city: 'San Francisco'
   }
-]
+];
 
-// For each object in the array of addresses, it will 
-// encrypt all properties passed in the array at the
-// second parameter using the generated key and iv
+// Generate a custom key and IV
 const { key, iv } = generateKeyAndIv();
-const cryptoAddress = cipherObjects<Address>(addresses, ['street', 'city'], key, iv)
-console.log(cryptoAddress)
+
+// Encrypt the 'street' and 'city' properties using the custom key and IV
+const encryptedAddresses = cipherObjects<Address>(addresses, ['street', 'city'], key, iv);
+console.log(encryptedAddresses);
 // [
 //   { 
-//      street: 'erblfebrfluierlwuhlrl738743bdwd',
-//      number: 123,
-//      state: 'NY',
-//      city: 'lenkwndekuw8'
+//     street: 'erblfebrfluierlwuhlrl738743bdwd',
+//     number: 123,
+//     state: 'NY',
+//     city: 'lenkwndekuw8'
 //   },
 //   { 
-//      street: 'erblfebrfluierlwuhlrl738743bdwd',
-//      number: 987,
-//      state: 'CA',
-//      city: 'lenkwndekuw8'
+//     street: 'erblfebrfluierlwuhlrl738743bdwd',
+//     number: 987,
+//     state: 'CA',
+//     city: 'lenkwndekuw8'
 //   }
 // ] 
 
-// It will encrypt all string properties of all objects in the 
-// addresses array using the generated key and iv
-const { key, iv } = generateKeyAndIv();
-const cryptoAddresses2 = cipherObject<Address>(addresses, undefined, key, iv)
-console.log(cryptoAddresses2)
+// Encrypt all string properties using the custom key and IV
+const encryptedAddresses2 = cipherObjects<Address>(addresses, undefined, key, iv);
+console.log(encryptedAddresses2);
 // [
 //   { 
-//      street: 'erblfebrfluierlwuhlrl738743bdwd',
-//      number: 123,
-//      state: 'bkjsw',
-//      city: 'lenkwndekuw8'
+//     street: 'erblfebrfluierlwuhlrl738743bdwd',
+//     number: 123,
+//     state: 'bkjsw',
+//     city: 'lenkwndekuw8'
 //   },
 //   { 
-//      street: 'erblfebrfluierlwuhlrl738743bdwd',
-//      number: 987,
-//      state: 'kqjwksq',
-//      city: 'lenkwndekuw8'
+//     street: 'erblfebrfluierlwuhlrl738743bdwd',
+//     number: 987,
+//     state: 'kqjwksq',
+//     city: 'lenkwndekuw8'
 //   }
 // ] 
 
-// It will encrypt all string properties of all objects in the 
-// addresses array using the 
-// generated key and the default iv
+// Encrypt all string properties using the custom key and the default IV
 const { key } = generateKeyAndIv();
-const cryptoAddresses3 = cipherObjects<Address>(addresses, undefined, key)
-console.log(cryptoAddresses3)
+const encryptedAddresses3 = cipherObjects<Address>(addresses, undefined, key);
+console.log(encryptedAddresses3);
 // [
 //   { 
-//      street: 'erblfebrfluierlwuhlrl738743bdwd',
-//      number: 123,
-//      state: 'bkjsw',
-//      city: 'lenkwndekuw8'
+//     street: 'erblfebrfluierlwuhlrl738743bdwd',
+//     number: 123,
+//     state: 'bkjsw',
+//     city: 'lenkwndekuw8'
 //   },
 //   { 
-//      street: 'erblfebrfluierlwuhlrl738743bdwd',
-//      number: 987,
-//      state: 'kqjwksq',
-//      city: 'lenkwndekuw8'
+//     street: 'erblfebrfluierlwuhlrl738743bdwd',
+//     number: 987,
+//     state: 'kqjwksq',
+//     city: 'lenkwndekuw8'
 //   }
 // ] 
 ```
