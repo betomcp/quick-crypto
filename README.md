@@ -1,10 +1,10 @@
-# Fast Crypto
+# Quick Crypto
 ### An easy way to encrypt and decrypt objects and simple strings with TypeScript.
 With this library, you can easily encrypt both complex objects and simple values.
 
 ## Installation
 ``` bash
-npm install fast-crypto
+npm install quick-crypto
 ```
 
 
@@ -60,7 +60,7 @@ cipherObject<T extends Record<string, any>>(obj: T, propertiesToEncrypt?: (keyof
 #### Examples
 _Let's create an Address object to show how this method works._
 ``` typescript
-import { cipherObject } from 'fast-crypto';
+import { cipherObject } from 'quick-crypto';
 
 type Address = {
     street: string,
@@ -99,7 +99,7 @@ console.log(cryptoAddress2);
 
 #### Example (using custom key and iv)
 ``` typescript
-import { cipherObject, generateKeyAndIv } from 'fast-crypto';
+import { cipherObject, generateKeyAndIv } from 'quick-crypto';
 
 type Address = {
     street: string,
@@ -164,7 +164,7 @@ decipherObject<T extends Record<string, any>>(obj: T, propertiesToEncrypt?: (key
 #### Examples
 _To show how this method works, we will create a encrypted address object._
 ``` typescript
-import { decipherObject } from 'fast-crypto';
+import { decipherObject } from 'quick-crypto';
 
 type Address = {
     street: string,
@@ -202,7 +202,7 @@ console.log(decryptedAddress2);
 ```
 #### Example (using custom key and iv)
 ``` typescript
-import { decipherObject, generateKeyAndIv } from 'fast-crypto';
+import { decipherObject, generateKeyAndIv } from 'quick-crypto';
 
 type Address = {
     street: string,
@@ -264,7 +264,7 @@ cipherObjects<T extends Record<string, any>>(obj: T[], propertiesToEncrypt?: (ke
 #### Examples
 _Let's create an Address object and an array of addresses to show how this method works:_
 ``` typescript
-import { cipherObjects } from 'fast-crypto';
+import { cipherObjects } from 'quick-crypto';
 
 type Address = {
   street: string,
@@ -327,7 +327,7 @@ console.log(encryptedAddresses2);
 
 #### Example (using custom key and iv)
 ``` typescript
-import { cipherObjects, generateKeyAndIv } from 'fast-crypto';
+import { cipherObjects, generateKeyAndIv } from 'quick-crypto';
 
 type Address = {
   street: string,
@@ -426,7 +426,7 @@ decipherObjects<T extends Record<string, any>>(obj: T[], propertiesToEncrypt?: (
 #### Examples
 _Let's create an Address object and an array of encrypted addresses to show how this method works:_
 ``` typescript
-import { decipherObjects } from 'fast-crypto';
+import { decipherObjects } from 'quick-crypto';
 
 type Address = {
   street: string,
@@ -503,7 +503,7 @@ decipherValues(values: string[], key?: string, iv?: string): string[];
 
 #### Examples (Single string with default key and IV)
 ``` typescript
-import { cipherValue, decipherValue } from 'fast-crypto';
+import { cipherValue, decipherValue } from 'quick-crypto';
 
 const myString = 'hello';
 
@@ -519,7 +519,7 @@ console.log(decrypted);
 ```
 #### Examples (Single string with custom key and IV)
 ``` typescript
-import { cipherValue, decipherValue, generateKeyAndIv } from 'fast-crypto';
+import { cipherValue, decipherValue, generateKeyAndIv } from 'quick-crypto';
 
 const { key, iv } = generateKeyAndIv();
 const myString = 'hello';
@@ -536,7 +536,7 @@ console.log(decrypted);
 ```
 #### Examples (Array of strings with default key and IV)
 ``` typescript
-import { cipherValues, decipherValues } from 'fast-crypto';
+import { cipherValues, decipherValues } from 'quick-crypto';
 
 const myStringArray = ['hello', 'world', 'code'];
 
@@ -552,7 +552,7 @@ console.log(decrypted);
 ```
 #### Examples (Array of strings with custom key and IV)
 ``` typescript
-import { cipherValues, decipherValues, generateKeyAndIv } from 'fast-crypto';
+import { cipherValues, decipherValues, generateKeyAndIv } from 'quick-crypto';
 
 const { key, iv } = generateKeyAndIv();
 const myStringArray = ['hello', 'world', 'code'];
@@ -580,7 +580,7 @@ generateKeyAndIv(): { key: string, iv: string }
 
 #### Example
 ``` typescript
-import { generateKeyAndIv } from 'fast-crypto';
+import { generateKeyAndIv } from 'quick-crypto';
 
 const { key, iv } = generateKeyAndIv();
 console.log(key, iv);
@@ -600,7 +600,7 @@ getDefaultKeyAndIv(): { key: string, iv: string }
 
 #### Example
 ``` typescript
-import { getDefaultKeyAndIv } from 'fast-crypto';
+import { getDefaultKeyAndIv } from 'quick-crypto';
 
 const { key, iv } = getDefaultKeyAndIv();
 console.log(key, iv);

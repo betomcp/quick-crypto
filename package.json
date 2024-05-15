@@ -1,7 +1,7 @@
 {
-  "name": "easy-crypto",
+  "name": "quick-crypto",
   "version": "1.0.0",
-  "description": "Easy way to cipher and decipher values",
+  "description": "Easy way to encrypt and decrypt objects and values.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -13,7 +13,17 @@
     "build": "tsup",
     "build:tsc": "tsc"
   },
-  "keywords": [],
+  "keywords": [
+    "quick-crypto",
+    "crypto",
+    "node",
+    "typescript",
+    "decrypt",
+    "fast",
+    "crypt",
+    "encryption",
+    "decrypt"
+  ],
   "author": "Roberto Porto",
   "license": "MIT",
   "files": [
