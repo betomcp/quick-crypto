@@ -6,7 +6,7 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "repository": {
-    "url": "https://github.com/betomcp/fast-crypto"
+    "url": "https://github.com/betomcp/quick-crypto"
   },
   "scripts": {
     "test": "jest",
