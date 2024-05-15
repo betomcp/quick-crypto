@@ -409,30 +409,31 @@ console.log(encryptedAddresses3);
 ```
 
 # decipherObjects
-- This method is very similar with the _`decipherObject()`_ method, the diference is that this one recives an array of encrypted objects to decrypt instead of one single object.
-- This method is used to easly decrypt any array of objects.
-- It is possible to pass an array of strings with the name of each property of the objects that you want to decrypt.
-- If no key and/or iv is given, it will use the default key and/or iv.
-- It will retur an array of objects from the same type as the objects in the array given.
-- Below there is an example of how this method works.
+- This method is similar to the `decipherObject` method, but it accepts an array of encrypted objects to decrypt instead of a single object.
+- It is used to easily decrypt any array of objects.
+- You can pass an array of strings with the names of the properties you want to decrypt.
+- If no key and/or IV is provided, the default key and/or IV will be used.
+- It returns an array of objects of the same type as the input array.
+- Below is an example demonstrating how this method works.
 
  #### Signature
-```
+``` typescript
 decipherObjects<T extends Record<string, any>>(obj: T[], propertiesToEncrypt?: (keyof T)[], keyCipher?: string, iv?: string): T[];
 ```
 
 #### Examples
-_Lets create an Address object and an array of addresses to show how this method works_
-```
-import { decipherObjects } from 'fast-crypto'
+_Let's create an Address object and an array of encrypted addresses to show how this method works:_
+``` typescript
+import { decipherObjects } from 'fast-crypto';
+
 type Address = {
-    street: string,
-    number: number,
-    state: string,
-    city: string
+  street: string,
+  number: number,
+  state: string,
+  city: string
 }
 
-const addresses: Address[] = [
+const encryptedAddresses: Address[] = [
   {
     street: 'eldnel2kwl2w2lsm22',
     number: 123,
@@ -445,142 +446,138 @@ const addresses: Address[] = [
     state: 'kwml2mw2swkl2',
     city: '2lkmw2lm2ls'
   }
-]
+];
 
-// It will decrypt all string ptoperties of all objects in the 
-// array and use the default key and iv
-const decryptedAddresses = decipherObjects<Address>(addresses);
-console.log(decryptedAddresses)
+// Decrypts all string properties of all objects in the array using the default key and IV
+const decryptedAddresses = decipherObjects<Address>(encryptedAddresses);
+console.log(decryptedAddresses);
 // [
 //  {
-//      street: 'some street',
-//      number: 123,
-//      state: 'NY',
-//      city: 'New York'
+//    street: 'some street',
+//    number: 123,
+//    state: 'NY',
+//    city: 'New York'
 //  },
 //  {
-//      street: 'some other street',
-//      number: 987,
-//      state: 'CA',
-//      city: 'San Francisco'
+//    street: 'some other street',
+//    number: 987,
+//    state: 'CA',
+//    city: 'San Francisco'
 //  }
 // ] 
 
-
-// It will decrypt all properties passed in the array at the
-// second parameter of all objects in the addresses array 
-// use the default key and iv
-const decryptedAddresses2 = cipherObjects<Address>(addresses, ['street', 'city'])
-console.log(decryptedAddresses2)
+// Decrypts only the 'street' and 'city' properties of all objects in the array using the default key and IV
+const decryptedAddresses2 = decipherObjects<Address>(encryptedAddresses, ['street', 'city']);
+console.log(decryptedAddresses2);
 // [
 //  {
-//      street: 'some street',
-//      number: 123,
-//      state: 'w2knsk2wjk2k',
-//      city: 'New York'
+//    street: 'some street',
+//    number: 123,
+//    state: 'w2knsk2wjk2k',
+//    city: 'New York'
 //  },
 //  {
-//      street: 'some other street',
-//      number: 987,
-//      state: 'kwml2mw2swkl2',
-//      city: 'San Francisco'
+//    street: 'some other street',
+//    number: 987,
+//    state: 'kwml2mw2swkl2',
+//    city: 'San Francisco'
 //  }
 // ] 
 ```
-- _To use a custom key and iv to decipher objects, it must be the same key and iv used to encrypt the object_
+- _To use a custom key and IV to decipher objects, they must be the same key and IV used to encrypt the objects._
 
-# cipherValue, decipherValue, cipherValues and decipherValues
+# cipherValue, decipherValue, cipherValues, and decipherValues
 
-- This methods are used to encrypt and decrypt strings or an array of strings
-- It is possible yo use the default key and iv, or a custom one, like the other methods of this library.
+- These methods are used to encrypt and decrypt strings or an array of strings.
+- You can use the default key and IV, or provide a custom key and IV, similar to the other methods in this library.
 
 #### Signature
-```
+``` typescript
 cipherValue(value: string, key?: string, iv?: string): string;
 decipherValue(value: string, key?: string, iv?: string): string;
-cipherValues(value: string, key?: string, iv?: string): string;
-decipherValues(value: string, key?: string, iv?: string): string;
+cipherValues(values: string[], key?: string, iv?: string): string[];
+decipherValues(values: string[], key?: string, iv?: string): string[];
 ```
 
-#### Examples single string and default key and iv
-```
-import { cipherValue, decipherValue } from 'faast-crypto'
+#### Examples (Single string with default key and IV)
+``` typescript
+import { cipherValue, decipherValue } from 'fast-crypto';
 
 const myString = 'hello';
 
-// encrypt the value with default key and iv
+// Encrypt the value with default key and IV
 const encrypted = cipherValue(myString);
-console.log(encrypted)
+console.log(encrypted);
 // jk3k3ej3bkde3
 
-// decrypt value
+// Decrypt the value
 const decrypted = decipherValue(encrypted);
-console.log(decrypted)
+console.log(decrypted);
 // hello
 ```
-#### Examples single string and custom key and iv
-```
-import { cipherValue, decipherValue, generateKeyAndIv } from 'faast-crypto'
+#### Examples (Single string with custom key and IV)
+``` typescript
+import { cipherValue, decipherValue, generateKeyAndIv } from 'fast-crypto';
 
 const { key, iv } = generateKeyAndIv();
 const myString = 'hello';
 
-// encrypt the value with custom key and iv
+// Encrypt the value with custom key and IV
 const encrypted = cipherValue(myString, key, iv);
-console.log(encrypted)
+console.log(encrypted);
 // jk3k3ej3bkde3
 
-// decrypt value
+// Decrypt the value
 const decrypted = decipherValue(encrypted, key, iv);
-console.log(decrypted)
+console.log(decrypted);
 // hello
 ```
-#### Examples array of strings and default key and iv
-```
-import { cipherValues, decipherValues } from 'faast-crypto'
+#### Examples (Array of strings with default key and IV)
+``` typescript
+import { cipherValues, decipherValues } from 'fast-crypto';
 
 const myStringArray = ['hello', 'world', 'code'];
 
-// encrypt each value with default key and iv
+// Encrypt each value with default key and IV
 const encrypted = cipherValues(myStringArray);
-console.log(encrypted)
+console.log(encrypted);
 // ['ml2nkws2l', 'k2jwk2kn2', '2ljw2nkw2']
 
-// decrypt value
+// Decrypt the values
 const decrypted = decipherValues(encrypted);
-console.log(decrypted)
+console.log(decrypted);
 // ['hello', 'world', 'code']
 ```
-#### Examples array of strings and custom key and iv
-```
-import { cipherValues, decipherValues, generateKeyAndIv } from 'faast-crypto'
+#### Examples (Array of strings with custom key and IV)
+``` typescript
+import { cipherValues, decipherValues, generateKeyAndIv } from 'fast-crypto';
 
 const { key, iv } = generateKeyAndIv();
 const myStringArray = ['hello', 'world', 'code'];
 
-// encrypt the value with custom key and iv
+// Encrypt the values with custom key and IV
 const encrypted = cipherValues(myStringArray, key, iv);
-console.log(encrypted)
+console.log(encrypted);
 // ['ml2nkws2l', 'k2jwk2kn2', '2ljw2nkw2']
 
-// decrypt value
+// Decrypt the values
 const decrypted = decipherValues(encrypted, key, iv);
-console.log(decrypted)
+console.log(decrypted);
 // ['hello', 'world', 'code']
 ```
 
 # generateKeyAndIv
 
-- This metod is used to generate a random key and iv to encrypt values.
-- It will return a 32 charachteres key and a 16 characchteres iv.
+- This method is used to generate a random key and IV to encrypt values.
+- It returns a 32-character key and a 16-character IV.
 
 #### Signature
-```
+``` typescript
 generateKeyAndIv(): { key: string, iv: string }
 ```
 
 #### Example
-```
+``` typescript
 import { generateKeyAndIv } from 'fast-crypto';
 
 const { key, iv } = generateKeyAndIv();
@@ -591,16 +588,16 @@ console.log(key, iv);
 
 # getDefaultKeyAndIv
 
-- This metod returns teh default key and iv used in this library and is just recomended for tests.
-- It will return a 32 charachteres key and a 16 characchteres iv.
+- This method returns the default key and IV used in this library and is recommended for testing purposes.
+- It returns a 32-character key and a 16-character IV.
 
 #### Signature
-```
+``` typescript
 getDefaultKeyAndIv(): { key: string, iv: string }
 ```
 
 #### Example
-```
+``` typescript
 import { getDefaultKeyAndIv } from 'fast-crypto';
 
 const { key, iv } = getDefaultKeyAndIv();
