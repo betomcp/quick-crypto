@@ -63,10 +63,10 @@ _Let's create an Address object to show how this method works._
 import { cipherObject } from 'quick-crypto';
 
 type Address = {
-    street: string,
-    number: number,
-    state: string,
-    city: string
+    street: string;
+    number: number;
+    state: string;
+    city: string;
 };
 
 const address: Address = {
@@ -102,10 +102,10 @@ console.log(cryptoAddress2);
 import { cipherObject, generateKeyAndIv } from 'quick-crypto';
 
 type Address = {
-    street: string,
-    number: number,
-    state: string,
-    city: string
+    street: string;
+    number: number;
+    state: string;
+    city: string;
 };
 
 const address: Address = {
@@ -167,10 +167,10 @@ _To show how this method works, we will create a encrypted address object._
 import { decipherObject } from 'quick-crypto';
 
 type Address = {
-    street: string,
-    number: number,
-    state: string,
-    city: string
+    street: string;
+    number: number;
+    state: string;
+    city: string;
 };
 
 const encryptedAddress: Address = {
@@ -205,10 +205,10 @@ console.log(decryptedAddress2);
 import { decipherObject, generateKeyAndIv } from 'quick-crypto';
 
 type Address = {
-    street: string,
-    number: number,
-    state: string,
-    city: string
+    street: string;
+    number: number;
+    state: string;
+    city: string;
 };
 
 const encryptedAddress: Address = {
@@ -267,10 +267,10 @@ _Let's create an Address object and an array of addresses to show how this metho
 import { cipherObjects } from 'quick-crypto';
 
 type Address = {
-  street: string,
-  number: number,
-  state: string,
-  city: string
+  street: string;
+  number: number;
+  state: string;
+  city: string;
 }
 
 const addresses: Address[] = [
@@ -330,10 +330,10 @@ console.log(encryptedAddresses2);
 import { cipherObjects, generateKeyAndIv } from 'quick-crypto';
 
 type Address = {
-  street: string,
-  number: number,
-  state: string,
-  city: string
+  street: string;
+  number: number;
+  state: string;
+  city: string;
 }
 
 const addresses: Address[] = [
@@ -429,10 +429,10 @@ _Let's create an Address object and an array of encrypted addresses to show how 
 import { decipherObjects } from 'quick-crypto';
 
 type Address = {
-  street: string,
-  number: number,
-  state: string,
-  city: string
+  street: string;
+  number: number;
+  state: string;
+  city: string;
 }
 
 const encryptedAddresses: Address[] = [
