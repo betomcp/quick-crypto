@@ -3,7 +3,8 @@ import * as crypto from "crypto";
 
 const defaultIv = "5fbe50e741c064f8";
 const defaultKey = "011b73647d13adbafa9351fdb1ec0698";
-
+const getIv = () => process.env.EASY_CRYPTO_IV || defaultIv;
+const getKey = () => process.env.EASY_CRYPTO_KEY || defaultKey;
 
 /**
  * cipher the properties defined in the second parameter.
@@ -26,8 +27,8 @@ function cipherObject<T extends Record<string, any>>(
   keyCipher?: string,
   iv?: string
 ): T {
-  keyCipher = keyCipher ? keyCipher : defaultKey;
-  iv = iv ? iv : defaultIv;
+  keyCipher = keyCipher ? keyCipher : getKey();
+  iv = iv ? iv : getIv();
   propertiesToEncrypt = propertiesToEncrypt
     ? propertiesToEncrypt
     : Object.keys(obj);
@@ -67,8 +68,12 @@ function cipherObjects<T extends Record<string, any>>(
   keyCipher?: string,
   iv?: string
 ): T[] {
-  keyCipher = keyCipher ? keyCipher : defaultKey;
-  iv = iv ? iv : defaultIv;
+  keyCipher = keyCipher ? keyCipher : getKey();
+  iv = iv ? iv : getIv();
+  console.log("current Key: ", getKey());
+  console.log("current Iv: ", getIv());
+  console.log("request Key: ", keyCipher);
+  console.log("request iv: ", iv);
   for (let obj of objects) {
     propertiesToEncrypt = propertiesToEncrypt
       ? propertiesToEncrypt
@@ -109,8 +114,8 @@ function decipherObject<T extends Record<string, any>>(
   keyCipher?: string,
   iv?: string
 ): T {
-  keyCipher = keyCipher ? keyCipher : defaultKey;
-  iv = iv ? iv : defaultIv;
+  keyCipher = keyCipher ? keyCipher : getKey();
+  iv = iv ? iv : getIv();
   propertiesToDecrypt = propertiesToDecrypt
     ? propertiesToDecrypt
     : Object.keys(obj);
@@ -149,8 +154,12 @@ function decipherObjects<T extends Record<string, any>>(
   keyCipher?: string,
   iv?: string
 ): T[] {
-  keyCipher = keyCipher ? keyCipher : defaultKey;
-  iv = iv ? iv : defaultIv;
+  console.log("current Key: ", getKey());
+  console.log("current Iv: ", getIv());
+  console.log("request Key: ", keyCipher);
+  console.log("request iv: ", iv);
+  keyCipher = keyCipher ? keyCipher : getKey();
+  iv = iv ? iv : getIv();
   for (let obj of objects) {
     propertiesToDecrypt = propertiesToDecrypt
       ? propertiesToDecrypt
@@ -183,8 +192,8 @@ function decipherObjects<T extends Record<string, any>>(
  */
 
 function cipherValue(value: string, keyCipher?: string, iv?: string): string {
-  keyCipher = keyCipher ? keyCipher : defaultKey;
-  iv = iv ? iv : defaultIv;
+  keyCipher = keyCipher ? keyCipher : getKey();
+  iv = iv ? iv : getIv();
   const cipher = createCipheriv("aes256", keyCipher, iv);
   const encrypted = cipher.update(value, "utf-8", "hex") + cipher.final("hex");
 
@@ -208,8 +217,8 @@ function cipherValues(
   keyCipher?: string,
   iv?: string
 ): string[] {
-  keyCipher = keyCipher ? keyCipher : defaultKey;
-  iv = iv ? iv : defaultIv;
+  keyCipher = keyCipher ? keyCipher : getKey();
+  iv = iv ? iv : getIv();
   const res: string[] = [];
   for (let value of values) {
     const cipher = createCipheriv("aes256", keyCipher, iv);
@@ -233,8 +242,8 @@ function cipherValues(
  */
 
 function decipherValue(value: string, keyCipher?: string, iv?: string): string {
-  keyCipher = keyCipher ? keyCipher : defaultKey;
-  iv = iv ? iv : defaultIv;
+  keyCipher = keyCipher ? keyCipher : getKey();
+  iv = iv ? iv : getIv();
   const decipher = createDecipheriv("aes256", keyCipher, iv);
   const decrypted =
     decipher.update(value, "hex", "utf-8") + decipher.final("utf-8");
@@ -259,8 +268,8 @@ function decipherValues(
   keyCipher?: string,
   iv?: string
 ): string[] {
-  keyCipher = keyCipher ? keyCipher : defaultKey;
-  iv = iv ? iv : defaultIv;
+  keyCipher = keyCipher ? keyCipher : getKey();
+  iv = iv ? iv : getIv();
   const res: string[] = [];
   for (let value of values) {
     const decipher = createDecipheriv("aes256", keyCipher, iv);
