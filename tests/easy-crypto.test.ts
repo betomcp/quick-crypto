@@ -27,6 +27,11 @@ const objectsList: any[] = [
 ];
 
 describe("EasyCrypto lib tests", () => {
+  beforeEach(() => {
+    delete process.env.EASY_CRYPTO_KEY;
+    delete process.env.EASY_CRYPTO_IV;
+  });
+
   it("should return an object with { key: string64len, iv: string32len }", () => {
     expect(generateKeyAndIv()).toEqual(
       expect.objectContaining({
@@ -87,4 +92,22 @@ describe("EasyCrypto lib tests", () => {
       })
     );
   })
+
+  it("should use env variables to set key and iv", () => {
+    process.env.EASY_CRYPTO_KEY = "12345678901234567890123456789012";
+    process.env.EASY_CRYPTO_IV = "1234567890123456";
+    const arr = objectsList.map(o => o[0]);
+    const ciphers = cipherObjects(arr);
+    expect(Array.isArray(ciphers)).toBeTruthy();
+    expect(decipherObjects(ciphers, undefined, process.env.EASY_CRYPTO_KEY, process.env.EASY_CRYPTO_IV)).toEqual(arr);
+  });
+
+  it("should use default key and iv if not given", () => {
+    const arr = objectsList.map(o => o[0]);
+    const ciphers = cipherObjects(arr);
+    expect(Array.isArray(ciphers)).toBeTruthy();
+    const defaultKey = getDefaultKeyAndIv().key;
+    const defaultIv = getDefaultKeyAndIv().iv;
+    expect(decipherObjects(ciphers, undefined, defaultKey, defaultIv)).toEqual(arr);
+  });
 });
